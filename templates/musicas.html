@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+ 
+{% block content %}
+<table class="table table-dark">
+    <thead>
+      <tr>
+        <th scope="col">Música</th>
+        <th scope="col">Duração da Música</th>
+        <th scope="col">Data de lançamento</th>
+      </tr>
+ 
+    {% for dado in dados %}
+    <tr class="{% if loop.index is even %}table-primary{% else %}table-light{% endif %}">
+        <td>{{ dado.nome }}</td>
+        <td>{{ dado.duracao }}</td>
+        <td>{{ dado.lancamento }}</td>
+    </tr>
+    {% endfor %}
+
+</tbody>
+</table>
+{% endblock %}
