@@ -7,14 +7,13 @@
         <div class="row">
             <div class="col-md-3 mb-4">
                 <div class="card text-white bg-primary mb-3">
-                    <div class="card-header">Usuario</div>
+                    <div class="card-header">{{ usuario['login'] }}</div>
                     <div class="card-body">
-                        <h4 class="card-title">{{ id['login'] }}</h4>
-                        <p class="card-text">Senha: {{ id['senha'] }}</p>
-                        <p class="card-text">Nome: {{ id['nome_real'] }}</p>
-                        <p class="card-text">Status: {{ id['status_label'] }}</p>
-                        <p class="card-text">Created: {{ id['created'] }}</p>
-                        <p class="card-text">Modified: {{ id['modified'] }}</p>
+                        <p class="card-text">Senha: {{ usuario['senha'] }}</p>
+                        <p class="card-text">Nome: {{ usuario['nome_real'] }}</p>
+                        <p class="card-text">Status: {{ usuario['status_label'] }}</p>
+                        <p class="card-text">Created: {{ usuario['created'] }}</p>
+                        <p class="card-text">Modified: {{ usuario['modified'] }}</p>
                     </div>
                 </div>
             </div>

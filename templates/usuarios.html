@@ -8,9 +8,21 @@
             {% for dado in dados %}
             <div class="col-md-3 mb-4">
                 <div class="card text-white bg-primary mb-3">
-                    <div class="card-header">Usuario</div>
+                    <div class="card-header">{{ dado.login }}
+                        <form action="{{ url_for('routes.handle_usuario', usuario_id=dado.id) }}" method="POST" style="display:inline;">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <button type="submit" class="btn-transparent">
+                                <img src="{{ url_for('static', filename='icons/delete.png') }}" alt="Delete" width="20" height="20">
+                            </button>
+                        </form>
+                        <form action="{{ url_for('routes.handle_usuario', usuario_id=dado.id) }}" method="GET" style="display:inline;">
+                            <button type="submit" class="btn-transparent">
+                                <img src="{{ url_for('static', filename='icons/edit.png') }}" alt="Edit" width="20" height="20">
+                            </button>
+                        </form>
+                        
+                    </div>
                     <div class="card-body">
-                        <h4 class="card-title">{{ dado.login }}</h4>
                         <p class="card-text">Senha: {{ dado.senha }}</p>
                         <p class="card-text">Nome: {{ dado.nome_real }}</p>
                         <p class="card-text">Status: {{ dado.status_label }}</p>
