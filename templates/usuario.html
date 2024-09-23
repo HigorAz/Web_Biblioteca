@@ -1,20 +1,40 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1 class="text-center">{% block title %} Usuario {% endblock %}</h1>
-
-    <div class="container">
-        <div class="row">
-            <div class="col-md-3 mb-4">
-                <div class="card text-white bg-primary mb-3">
-                    <div class="card-header">{{ usuario['login'] }}</div>
-                    <div class="card-body">
-                        <p class="card-text">Senha: {{ usuario['senha'] }}</p>
-                        <p class="card-text">Nome: {{ usuario['nome_real'] }}</p>
-                        <p class="card-text">Status: {{ usuario['status_label'] }}</p>
-                        <p class="card-text">Created: {{ usuario['created'] }}</p>
-                        <p class="card-text">Modified: {{ usuario['modified'] }}</p>
-                    </div>
+    <h1 class="text-center">{% block title %} Usuário {% endblock %}</h1>
+    <div class="d-flex justify-content-center" style="min-height: 100vh;">
+        <div class="col-md-4">
+            <div class="card text-white bg-primary mb-3" style="position: relative;">
+                <div class="card-icons" style="position: absolute; top: 10px; right: 10px;">
+                    <form action="{{ url_for('routes.handle_usuario', usuario_id=usuario.id) }}" method="GET" style="display:inline;">
+                        <button type="submit" class="btn-transparent">
+                            <img src="{{ url_for('static', filename='icons/edit.png') }}" alt="Edit" width="20" height="20">
+                        </button>
+                    </form>
+                    <form action="{{ url_for('routes.handle_usuario', usuario_id=usuario.id) }}" method="POST" style="display:inline;">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <button type="submit" class="btn-transparent">
+                            <img src="{{ url_for('static', filename='icons/delete.png') }}" alt="Delete" width="20" height="20">
+                        </button>
+                    </form>
+                </div>
+                <div class="card-header" style="color: black;">
+                    {{ usuario['login'] }}
+                </div>
+                <div class="card-body">
+                    <p class="card-text">Login: {{ usuario['login'] }}</p>
+                    <p class="card-text">Senha: {{ usuario['senha'] }}</p>
+                    <p class="card-text">Nome: {{ usuario['nome_real'] }}</p>
+                    <p class="card-text">
+                        Status: 
+                        {% if usuario['status'] == 1 %}
+                            Ativo
+                        {% else %}
+                            Bloqueado
+                        {% endif %}
+                    </p>
+                    <p class="card-text">Created: {{ usuario['created'] }}</p>
+                    <p class="card-text">Modified: {{ usuario['modified'] }}</p>
                 </div>
             </div>
         </div>

@@ -3,7 +3,7 @@ from flask import redirect, render_template, request, jsonify, url_for
 from . import bp
 from db.database import get_db
 from datetime import datetime
-import pytz # type: ignore
+import pytz
 import bcrypt
 import re
 
@@ -13,14 +13,9 @@ def validar_email(email):
 
 now = datetime.now(pytz.timezone('America/Sao_Paulo')).strftime('%Y-%m-%d %H:%M:%S')
 
-@bp.route('/edit')
-
-def edit():
-    return render_template("edit_usuario.html")
-
 @bp.route('/usuarios', methods=['POST', 'GET'])
 
-def handle__usuarios():
+def handle_usuarios():
     if request.method == 'GET':
         return get_usuarios()
     elif request.method == 'POST':
@@ -100,7 +95,7 @@ def get_usuario(usuario_id):
         cursor.execute('SELECT *, CASE WHEN status = 1 THEN \'Ativo\' WHEN status = 0 THEN \'Bloqueado\' END AS status_label FROM usuarios WHERE id = ?', (usuario_id,))
         usuario = cursor.fetchone()
         if usuario: 
-            return render_template("usuario.html", usuario=usuario)
+            return render_template("edit_usuario.html", usuario=usuario)
         else:
             return jsonify({'error': 'ID não encontrado'})
     except sqlite3.Error as e:
@@ -117,7 +112,9 @@ def delete_usuario(usuario_id):
         if usuario: 
             cursor.execute('UPDATE usuarios set status = 0, modified = ? WHERE id = ?', (now, usuario_id,))
             db.commit()
-            return render_template("usuario.html", usuario=usuario)
+            cursor.execute('SELECT *, CASE WHEN status = 1 THEN \'Ativo\' WHEN status = 0 THEN \'Bloqueado\' END AS status_label FROM usuarios WHERE id = ?', (usuario_id,))
+            usuario_atualizado = cursor.fetchone()
+            return render_template("usuario.html", usuario=usuario_atualizado)
         else:
             return jsonify({'error': 'ID não encontrado'})
     except sqlite3.Error as e:
@@ -168,37 +165,12 @@ def update_usuario(usuario_id):
         cursor.execute('UPDATE usuarios SET login = ?, senha = ?, nome_real = ?, status = ?, modified = ? WHERE id = ?', 
                        (login, hashed_senha, nome_real, status, now, usuario_id))
         db.commit()
-        return render_template("usuario.html", usuario=usuario)
 
-    except sqlite3.Error as e:
-        return jsonify({'error': str(e)}), 500
-    finally:
-        db.close()
-
-#==========================================================================================================================================================================
-
-@bp.route('/usuario/edit<int:usuario_id>', methods=['POST', 'PUT'])
-
-def handle_edit(usuario_id):
-    if request.method == 'GET':
-        return get_usuario(usuario_id)
-    
-    elif request.method == 'POST':
-        if request.form.get('_method') == 'DELETE':
-            return delete_usuario(usuario_id)
-        elif request.form.get('_method') == 'PUT':
-            return edit_usuario(usuario_id)
-    
-def edit_usuario(usuario_id):
-    try:
-        db = get_db()
-        cursor = db.cursor()
         cursor.execute('SELECT *, CASE WHEN status = 1 THEN \'Ativo\' WHEN status = 0 THEN \'Bloqueado\' END AS status_label FROM usuarios WHERE id = ?', (usuario_id,))
-        usuario = cursor.fetchone()
-        if usuario: 
-            return render_template("edit_usuario.html", usuario=usuario)
-        else:
-            return jsonify({'error': 'ID não encontrado'})
+        usuario_atualizado = cursor.fetchone()
+
+        return render_template("usuario.html", usuario=usuario_atualizado)
+
     except sqlite3.Error as e:
         return jsonify({'error': str(e)}), 500
     finally:
