@@ -3,7 +3,7 @@
 {% block content %}
 <div class="container">
     <h2 class="text-center">Edição do Usuário</h2>
-    <form action="{{ url_for('routes.handle_edit', usuario_id=usuario['id']) }}" method="POST">
+    <form action="{{ url_for('routes.handle_usuario', usuario_id=usuario['id']) }}" method="POST">
         <input type="hidden" name="_method" value="PUT">
         <fieldset>
             <div>
@@ -32,6 +32,7 @@
             <div class="mt-4 text-center">
                 <button type="submit" class="btn btn-primary">Submit</button>
             </div>
+            <legend class="mt-4"></legend>
         </fieldset>
     </form>
 </div>

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2 class="text-center">Login</h2>
+    <form action="{{ url_for('routes.login') }}" method="POST">
+        <fieldset>
+            <div>
+                <label for="login" class="form-label mt-4">Login (Email)</label>
+                <input type="email" class="form-control" id="login" name="login" required>
+            </div>
+            <div>
+                <label for="password" class="form-label mt-4">Senha</label>
+                <input type="password" class="form-control" id="password" name="senha" required>
+            </div>
+            <div class="mt-4 text-center">
+                <button type="submit" class="btn btn-primary">Entrar</button>
+                <a href="{{ url_for('routes.register') }}" class="btn btn-secondary">Registrar</a>
+            </div>
+        </fieldset>
+    </form>
+</div>
+{% endblock %}
