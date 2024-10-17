@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2 class="text-center">Bem-vindo!</h2>
+
+    <!-- Exibir o nome do usuário -->
+    {% if user_name %}
+        <p class="text-center">Olá, {{ user_name }}!</p>
+    {% endif %}
+
+    <!-- Exibição do Token JWT -->
+    {% if token %}
+        <div class="token-container">
+            <p><strong>Seu JWT Token:</strong></p>
+            <pre>{{ token }}</pre>
+            <p>Use este token para acessar rotas protegidas.</p>
+        </div>
+    {% endif %}
+
+    <!-- Link para Logout -->
+    <div class="text-center mt-4">
+        <a href="{{ url_for('logout') }}" class="btn btn-danger">Logout</a>
+    </div>
+</div>
+
+<style>
+.token-container pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    background-color: #f8f9fa;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    max-width: 100%;
+    word-break: break-all;
+}
+</style>
+{% endblock %}

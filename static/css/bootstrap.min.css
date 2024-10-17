@@ -14552,4 +14552,16 @@ body {
     opacity: 0.7; /* Leve efeito de transparência ao passar o mouse */
 }
 
+.token-container pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word; 
+    padding: 10px; 
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    max-width: 100%; 
+    word-break: break-all;/
+}
+
+
 /*# sourceMappingURL=bootstrap.min.css.map */
