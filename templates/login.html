@@ -3,6 +3,14 @@
 {% block content %}
 <div class="container">
     <h2 class="text-center">Login</h2>
+
+    <div class="text-center">
+        <a href="{{ url_for('google.login') }}" class="btn btn-primary">Entrar com Google</a>
+        <a href="{{ url_for('github.login') }}" class="btn btn-dark">Entrar com GitHub</a>
+    </div>
+
+    <p class="text-center mt-3">Ou faça login com seu email e senha:</p>
+
     <form action="{{ url_for('routes.login') }}" method="POST">
         <fieldset>
             <div>
@@ -17,6 +25,9 @@
                 <button type="submit" class="btn btn-primary">Entrar</button>
                 <a href="{{ url_for('routes.register') }}" class="btn btn-secondary">Registrar</a>
             </div>
+            <div class="mt-3 text-center">
+                <a href="{{ url_for('routes.forgot_password') }}">Esqueci minha senha</a>
+            </div>            
         </fieldset>
     </form>
 </div>

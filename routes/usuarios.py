@@ -1,5 +1,6 @@
 import sqlite3
 from flask import redirect, render_template, request, jsonify, url_for
+import jwt
 from . import bp
 from db.database import get_db
 from datetime import datetime
@@ -14,13 +15,11 @@ def validar_email(email):
 now = datetime.now(pytz.timezone('America/Sao_Paulo')).strftime('%Y-%m-%d %H:%M:%S')
 
 @bp.route('/usuarios', methods=['POST', 'GET'])
-
 def handle_usuarios():
     if request.method == 'GET':
         return get_usuarios()
     elif request.method == 'POST':
         return add_usuario()
-
 
 def get_usuarios():
     try:
