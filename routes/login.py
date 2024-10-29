@@ -1,5 +1,5 @@
 import sqlite3
-from flask import flash, redirect, render_template, request, url_for
+from flask import flash, redirect, render_template, request, session, url_for
 from . import bp
 from db.database import get_db
 from datetime import datetime
@@ -37,9 +37,15 @@ def login():
                     flash('Usuário está bloqueado')
                     return render_template("login.html")
 
+                # Verifica a senha
                 if bcrypt.checkpw(senha.encode('utf-8'), usuario[2]):
                     flash('Login bem-sucedido')
-                    return redirect(url_for('routes.handle_usuarios'))
+                    
+                    # Armazena o nome do usuário na sessão
+                    session['user_name'] = usuario[3]  # 'nome_real' é armazenado na coluna 3
+                    
+                    # Redireciona para a página inicial
+                    return redirect(url_for('index'))
                 else:
                     flash('Senha incorreta')
                     return render_template("login.html")
@@ -47,7 +53,7 @@ def login():
                 flash('Usuário não encontrado')
                 return render_template("login.html")
         except sqlite3.Error as e:
-            flash('Erro ao fazer login: {}'.format(e))
+            flash(f'Erro ao fazer login: {e}')
             return render_template("login.html")
         finally:
             db.close()

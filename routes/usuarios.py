@@ -1,29 +1,21 @@
-from flask import request, jsonify
+import sqlite3
+from flask import redirect, render_template, request, jsonify, url_for
 import jwt
 from . import bp
+from db.database import get_db
+from datetime import datetime
+import pytz
+import bcrypt
+import re
 
-def verify_jwt(token):
-    try:
-        payload = jwt.decode(token, JWT_SECRET, algorithms=[JWT_ALGORITHM])
-        return payload
-    except jwt.ExpiredSignatureError:
-        return None  # Token expirado
-    except jwt.InvalidTokenError:
-        return None  # Token inválido
+def validar_email(email):
+    regex = r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
+    return re.match(regex, email) is not None
+
+now = datetime.now(pytz.timezone('America/Sao_Paulo')).strftime('%Y-%m-%d %H:%M:%S')
 
 @bp.route('/usuarios', methods=['POST', 'GET'])
 def handle_usuarios():
-    token = request.headers.get('Authorization')
-    if not token:
-        return jsonify({'message': 'Token não fornecido'}), 401
-
-    token = token.split(" ")[1]  # Remove "Bearer" do cabeçalho
-    payload = verify_jwt(token)
-    
-    if not payload:
-        return jsonify({'message': 'Token inválido ou expirado'}), 401
-    
-    # Lógica de listar ou adicionar usuários continua...
     if request.method == 'GET':
         return get_usuarios()
     elif request.method == 'POST':

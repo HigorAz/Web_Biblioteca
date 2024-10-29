@@ -9,15 +9,6 @@
         <p class="text-center">Olá, {{ user_name }}!</p>
     {% endif %}
 
-    <!-- Exibição do Token JWT -->
-    {% if token %}
-        <div class="token-container">
-            <p><strong>Seu JWT Token:</strong></p>
-            <pre>{{ token }}</pre>
-            <p>Use este token para acessar rotas protegidas.</p>
-        </div>
-    {% endif %}
-
     <!-- Link para Logout -->
     <div class="text-center mt-4">
         <a href="{{ url_for('logout') }}" class="btn btn-danger">Logout</a>
