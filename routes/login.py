@@ -37,14 +37,11 @@ def login():
                     flash('Usuário está bloqueado')
                     return render_template("login.html")
 
-                # Verifica a senha
                 if bcrypt.checkpw(senha.encode('utf-8'), usuario[2]):
                     flash('Login bem-sucedido')
+
+                    session['user_name'] = usuario[3] 
                     
-                    # Armazena o nome do usuário na sessão
-                    session['user_name'] = usuario[3]  # 'nome_real' é armazenado na coluna 3
-                    
-                    # Redireciona para a página inicial
                     return redirect(url_for('index'))
                 else:
                     flash('Senha incorreta')

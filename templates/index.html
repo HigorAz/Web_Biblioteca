@@ -4,12 +4,10 @@
 <div class="container">
     <h2 class="text-center">Bem-vindo!</h2>
 
-    <!-- Exibir o nome do usuário -->
     {% if user_name %}
         <p class="text-center">Olá, {{ user_name }}!</p>
     {% endif %}
 
-    <!-- Link para Logout -->
     <div class="text-center mt-4">
         <a href="{{ url_for('logout') }}" class="btn btn-danger">Logout</a>
     </div>
