@@ -6,6 +6,15 @@ Guia de Instalação:
 	- pip install flask
 	- pip install pysqlite3
 	- pip install bcrypt
-4. Vá ao arquivo app.py e clique na opção "Run Code";
-5. No terminal você terá o link de acesso ao projeto, que será uma rota direcionando para uma rota padrão do seu computador (normalmente na porta 3000 ou 5000);
-6. Vá para a rota /initdb e então seu banco será criado, após isso você poderá utilizar as funções do sistema normalmente.
+  	- pip install python-dotenv
+4. Adicione as suas credenciais Google, GitHub e de e-mail no arquivo .env, conforme o modelo abaixo:
+	GOOGLE_CLIENT_ID=""
+	GOOGLE_CLIENT_SECRET=""
+	GITHUB_CLIENT_ID=""
+	GITHUB_CLIENT_SECRET=""
+	MAIL_USERNAME=""
+	MAIL_PASSWORD=""
+	SECRET_KEY="123"
+5. Vá ao arquivo app.py e clique na opção "Run Code";
+6. No terminal você terá o link de acesso ao projeto, que será uma rota direcionando para uma rota padrão do seu computador (normalmente na porta 3000 ou 5000);
+7. Vá para a rota /initdb e então seu banco será criado, após isso você poderá utilizar as funções do sistema normalmente.
