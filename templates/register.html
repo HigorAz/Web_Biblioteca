@@ -2,23 +2,23 @@
 
 {% block content %}
 <div class="container">
-    <h2 class="text-center">Registro</h2>
+    <h2 class="text-center">{{ _('Registro') }}</h2>
     <form action="{{ url_for('routes.register') }}" method="POST">
         <fieldset>
             <div>
-                <label for="login" class="form-label mt-4">Login (Email)</label>
+                <label for="login" class="form-label mt-4">{{ _('Entrar (email)') }}</label>
                 <input type="email" class="form-control" id="login" name="login" required>
             </div>
             <div>
-                <label for="password" class="form-label mt-4">Senha</label>
+                <label for="password" class="form-label mt-4">{{ _('Senha') }}</label>
                 <input type="password" class="form-control" id="password" name="senha" required>
             </div>
             <div>
-                <label for="nome_real" class="form-label mt-4">Nome Completo</label>
+                <label for="nome_real" class="form-label mt-4">{{ _('Nome Completo') }}</label>
                 <input type="text" class="form-control" id="nome_real" name="nome_real" required>
             </div>
             <div class="mt-4 text-center">
-                <button type="submit" class="btn btn-primary">Registrar</button>
+                <button type="submit" class="btn btn-primary">{{ _('Registrar') }}</button>
             </div>
         </fieldset>
     </form>

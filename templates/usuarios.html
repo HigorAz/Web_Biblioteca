@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1 class="text-center">{% block title %} Usuários {% endblock %}</h1>
+    <h1 class="text-center">{% block title %} {{ _('Usuários') }} {% endblock %}</h1>
 
     <div class="container">
         <div class="row">
@@ -25,12 +25,12 @@
                         {{ dado.login }}
                     </div>
                     <div class="card-body">
-                        <p class="card-text">Login: {{ dado.login }}</p>
-                        <p class="card-text">Senha: {{ dado.senha }}</p>
-                        <p class="card-text">Nome: {{ dado.nome_real }}</p>
-                        <p class="card-text">Status: {{ dado.status_label }}</p>
-                        <p class="card-text">Created: {{ dado.created }}</p>
-                        <p class="card-text">Modified: {{ dado.modified }}</p>
+                        <p class="card-text">{{ _('Entrar') }}: {{ dado.login }}</p>
+                        <p class="card-text">{{ _('Senha') }}: {{ dado.senha }}</p>
+                        <p class="card-text">{{ _('Nome') }}: {{ dado.nome_real }}</p>
+                        <p class="card-text">{{ _('Situação') }}: {{ dado.status_label }}</p>
+                        <p class="card-text">{{ _('Criação') }}: {{ dado.created }}</p>
+                        <p class="card-text">{{ _('Modificação') }}: {{ dado.modified }}</p>
                     </div>
                 </div>
             </div>

@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1 class="text-center">{% block title %} Usuário {% endblock %}</h1>
+    <h1 class="text-center">{% block title %} {{ _('Usuário') }} {% endblock %}</h1>
     <div class="d-flex justify-content-center" style="min-height: 100vh;">
         <div class="col-md-4">
             <div class="card text-white bg-primary mb-3" style="position: relative;">
@@ -22,9 +22,9 @@
                     {{ usuario['login'] }}
                 </div>
                 <div class="card-body">
-                    <p class="card-text">Login: {{ usuario['login'] }}</p>
-                    <p class="card-text">Senha: {{ usuario['senha'] }}</p>
-                    <p class="card-text">Nome: {{ usuario['nome_real'] }}</p>
+                    <p class="card-text">{{ _('Entrar') }}: {{ usuario['login'] }}</p>
+                    <p class="card-text">{{ _('Senha') }}: {{ usuario['senha'] }}</p>
+                    <p class="card-text">{{ _('Nome') }}: {{ usuario['nome_real'] }}</p>
                     <p class="card-text">
                         Status: 
                         {% if usuario['status'] == 1 %}
@@ -33,8 +33,8 @@
                             Bloqueado
                         {% endif %}
                     </p>
-                    <p class="card-text">Created: {{ usuario['created'] }}</p>
-                    <p class="card-text">Modified: {{ usuario['modified'] }}</p>
+                    <p class="card-text">{{ _('Criação') }}: {{ usuario['created'] }}</p>
+                    <p class="card-text">{{ _('Modificação') }}: {{ usuario['modified'] }}</p>
                 </div>
             </div>
         </div>

@@ -2,35 +2,35 @@
 
 {% block content %}
 <div class="container">
-    <h2 class="text-center">Edição do Usuário</h2>
+    <h2 class="text-center">{{ _('Edição do Usuário') }}</h2>
     <form action="{{ url_for('routes.handle_usuario', usuario_id=usuario['id']) }}" method="POST">
         <input type="hidden" name="_method" value="PUT">
         <fieldset>
             <div>
-                <label for="exampleInputEmail1" class="form-label mt-4">Login</label>
+                <label for="exampleInputEmail1" class="form-label mt-4">{{ _('Entrar') }}</label>
                 <input type="email" class="form-control" id="exampleInputEmail1" name="login" value="{{ usuario['login'] }}" required>
             </div>
             <div>
-                <label for="exampleInputPassword1" class="form-label mt-4">Senha</label>
+                <label for="exampleInputPassword1" class="form-label mt-4">{{ _('Senha') }}</label>
                 <input type="password" class="form-control" id="exampleInputPassword1" name="senha" placeholder="Password" autocomplete="off" required>
             </div>
             <div>
-                <label for="exampleTextarea" class="form-label mt-4">Nome</label>
+                <label for="exampleTextarea" class="form-label mt-4">{{ _('Nome') }}</label>
                 <textarea class="form-control" id="exampleTextarea" name="nome_real" rows="1" required>{{ usuario['nome_real'] }}</textarea>
             </div>
             <fieldset>
                 <legend class="mt-4">Status</legend>
                 <div class="form-check">
                     <input class="form-check-input" type="radio" name="status" id="optionsRadios1" value="1" {% if usuario['status'] == 1 %} checked {% endif %}>
-                    <label class="form-check-label" for="optionsRadios1">Ativo</label>
+                    <label class="form-check-label" for="optionsRadios1">{{ _('Ativo') }}</label>
                 </div>
                 <div class="form-check">
                     <input class="form-check-input" type="radio" name="status" id="optionsRadios2" value="0" {% if usuario['status'] == 0 %} checked {% endif %}>
-                    <label class="form-check-label" for="optionsRadios2">Bloqueado</label>
+                    <label class="form-check-label" for="optionsRadios2">{{ _('Bloqueado') }}</label>
                 </div>
             </fieldset>
             <div class="mt-4 text-center">
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary">{{ _('Enviar') }}</button>
             </div>
             <legend class="mt-4"></legend>
         </fieldset>

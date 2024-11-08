@@ -20,17 +20,31 @@
             <div class="collapse navbar-collapse" id="navbarColor01">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" href="/login">Login <span class="visually-hidden">(current)</span></a>
+                        <a class="nav-link active" href="/login">{{ _('Entrar') }} <span class="visually-hidden">(current)</span></a>
                     </li>
                     <li class="nav-item"></li>
-                      <a class="nav-link" href="/register">Registro</a>
+                      <a class="nav-link" href="/register">{{ _('Registro') }}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/usuarios">Usuários</a>
+                        <a class="nav-link" href="/usuarios">{{ _('Usuários') }}</a>
                     </li>
                 </ul>
             </div>
         </div>
+        <header>
+            <div class="flag-container">
+                <img src="{{ url_for('static', filename='images/us.png') }}" alt="English" onclick="setLanguage('en')">
+                <img src="{{ url_for('static', filename='images/es.png') }}" alt="Español" onclick="setLanguage('es')">
+                <img src="{{ url_for('static', filename='images/br.png') }}" alt="Português" onclick="setLanguage('pt_BR')">
+            </div>
+        </header>
+    
+        <script>
+            function setLanguage(lang) {
+                document.cookie = `language=${lang}; path=/;`;
+                location.reload();
+            }
+        </script>
     </nav>
     <hr>
     <div class="content">

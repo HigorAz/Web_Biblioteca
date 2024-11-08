@@ -2,14 +2,14 @@
 
 {% block content %}
 <div class="container">
-    <h2 class="text-center">Bem-vindo!</h2>
+    <h2 class="text-center">{{ _('Bem-vindo!') }}</h2>
 
     {% if user_name %}
-        <p class="text-center">Olá, {{ user_name }}!</p>
+        <p class="text-center">{{ _('Olá,') }} {{ user_name }}!</p>
     {% endif %}
 
     <div class="text-center mt-4">
-        <a href="{{ url_for('logout') }}" class="btn btn-danger">Logout</a>
+        <a href="{{ url_for('logout') }}" class="btn btn-danger">{{ _('Sair') }}</a>
     </div>
 </div>
 

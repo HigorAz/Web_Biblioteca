@@ -18,3 +18,83 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.16.0\n"
 
+msgid "Edição do Usuário"
+msgstr "Edición de Usuario"
+
+msgid "Senha"
+msgstr "Contraseña"
+
+msgid "Nome"
+msgstr "Nombre"
+
+msgid "Ativo"
+msgstr "Activo"
+
+msgid "Bloqueado"
+msgstr "Bloqueado"
+
+msgid "Enviar"
+msgstr "Enviar"
+
+msgid "Recuperação de Senha"
+msgstr "Recuperación de Contraseña"
+
+msgid "Digite seu email para receber o link de redefinição de senha:"
+msgstr "Ingrese su correo electrónico para recibir el enlace de restablecimiento de contraseña:"
+
+msgid "Email"
+msgstr "Correo electrónico"
+
+msgid "Bem-vindo!"
+msgstr "¡Bienvenido!"
+
+msgid "Olá,"
+msgstr "Hola,"
+
+msgid "Sair"
+msgstr "Salir"
+
+msgid "Entrar com Google"
+msgstr "Iniciar sesión con Google"
+
+msgid "Entrar com GitHub"
+msgstr "Iniciar sesión con GitHub"
+
+msgid "Ou faça login com seu email e senha:"
+msgstr "O inicie sesión con su correo electrónico y contraseña:"
+
+msgid "Entrar (email)"
+msgstr "Iniciar sesión (correo)"
+
+msgid "Esqueci minha senha"
+msgstr "Olvidé mi contraseña"
+
+msgid "Nome Completo"
+msgstr "Nombre Completo"
+
+msgid "Redefinir Senha"
+msgstr "Restablecer Contraseña"
+
+msgid "Digite uma nova senha para sua conta"
+msgstr "Ingrese una nueva contraseña para su cuenta"
+
+msgid "Nova senha"
+msgstr "Nueva contraseña"
+
+msgid "Redefinir"
+msgstr "Restablecer"
+
+msgid "Usuário"
+msgstr "Usuario"
+
+msgid "Criação"
+msgstr "Creación"
+
+msgid "Modificação"
+msgstr "Modificación"
+
+msgid "Situação"
+msgstr "Situación"
+
+msgid "Registrar"
+msgstr "Registrar"
