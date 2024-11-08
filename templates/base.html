@@ -31,13 +31,11 @@
                 </ul>
             </div>
         </div>
-        <header>
             <div class="flag-container">
                 <img src="{{ url_for('static', filename='images/us.png') }}" alt="English" onclick="setLanguage('en')">
                 <img src="{{ url_for('static', filename='images/es.png') }}" alt="Español" onclick="setLanguage('es')">
                 <img src="{{ url_for('static', filename='images/br.png') }}" alt="Português" onclick="setLanguage('pt_BR')">
             </div>
-        </header>
     
         <script>
             function setLanguage(lang) {
