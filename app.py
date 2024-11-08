@@ -1,3 +1,8 @@
+# from flask_babel import Babel
+# pybabel.exe extract -F babel.cfg -o messages.pot .
+# pybabel.exe init -i .\messages.pot -d translations -l es
+# pybabel.exe compile -d translations
+
 from flask import Flask, redirect, request, url_for, session, render_template, jsonify, flash
 from flask_dance.contrib.google import make_google_blueprint, google
 from flask_dance.contrib.github import make_github_blueprint, github
@@ -6,6 +11,7 @@ from routes import bp as routes_bp
 import os
 from dotenv import load_dotenv
 from flask_mail import Mail
+from flask_babel import Babel
 
 load_dotenv()
 
@@ -18,6 +24,20 @@ app.config['MAIL_USERNAME'] = os.getenv("MAIL_USERNAME")
 app.config['MAIL_PASSWORD'] = os.getenv("MAIL_PASSWORD")
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USE_SSL'] = False
+app.config['BABEL_DEFAULT_LOCALE'] = 'pt_BR'
+app.config['BABEL_TRANSLATION_DIRECTORIES'] = 'translations'
+
+def get_locale():
+    lang = request.cookies.get('language')
+    if lang in ['en', 'es', 'pt_BR']:
+        return lang
+    return request.accept_languages.best_match(['en', 'es', 'pt_BR'])
+
+babel = Babel(app, locale_selector=get_locale)
+
+@app.context_processor
+def inject_locale():
+    return {'get_locale': get_locale}
 
 mail = Mail(app)
 
