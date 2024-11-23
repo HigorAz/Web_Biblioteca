@@ -14,6 +14,10 @@
                 <input type="password" class="form-control" id="password" name="senha" required>
             </div>
             <div>
+                <label for="exampleTextarea" class="form-label mt-4">{{ _('Cargo') }}</label>
+                <textarea class="form-control" id="exampleTextarea" name="role" rows="1" required>{{ usuario['role'] }}</textarea>
+            </div>
+            <div>
                 <label for="nome_real" class="form-label mt-4">{{ _('Nome Completo') }}</label>
                 <input type="text" class="form-control" id="nome_real" name="nome_real" required>
             </div>

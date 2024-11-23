@@ -12,11 +12,82 @@ import os
 from dotenv import load_dotenv
 from flask_mail import Mail
 from flask_babel import Babel
+from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+from flask_principal import Principal, Permission, RoleNeed, identity_loaded, UserNeed, Identity, AnonymousIdentity, identity_changed
 
 load_dotenv()
 
 app = Flask(__name__, template_folder="templates")
 app.secret_key = os.getenv("SECRET_KEY")
+
+login_manager = LoginManager(app)
+login_manager.login_view = 'login'
+principals = Principal(app)
+
+admin_permission = Permission(RoleNeed('admin'))
+user_permission = Permission(RoleNeed('user'))
+
+users = {
+    "admin": {"password": "adminpass", "role": "admin"},
+    "user": {"password": "userpass", "role": "user"}
+}
+
+class User(UserMixin):
+    def __init__(self, username, role):
+        self.id = username
+        self.role = role
+
+@login_manager.user_loader
+def load_user(user_id):
+    user_data = users.get(user_id)
+    if user_data:
+        return User(user_id, user_data['role'])
+    return None
+
+@identity_loaded.connect_via(app)
+def on_identity_loaded(sender, identity):
+    if current_user.is_authenticated:
+        identity.provides.add(UserNeed(current_user.id))
+        identity.provides.add(RoleNeed(current_user.role))
+
+@app.route("/login", methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form["username"]
+        password = request.form["password"]
+        user = request.form["user"]
+
+        if user and user["password"] == password:
+            user_obj = User(username, user["role"])
+            login_user(user_obj)
+            return redirect(url_for("index"))
+        return "Credenciais inválidas. Por favor, tente novamente"
+    return render_template("login.html")
+
+@app.route("/admin")
+@login_required
+def admin():
+    if not admin_permission.can():
+        return redirect(url_for('forbidden'))
+    return "Olá Admin, bem vindo"
+
+@app.route("/user")
+@login_required
+def admin():
+    if not user_permission.can():
+        return redirect(url_for('forbidden'))
+    return "Olá Usuário, bem vindo"
+
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    identity_changed.send(app, identity=AnonymousIdentity())
+    return redirect(url_for("login"))
+
+@app.route("/forbidden")
+def forbidden():
+    return render_template("403.html"), 403
 
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587

@@ -25,10 +25,11 @@
                         {{ dado.login }}
                     </div>
                     <div class="card-body">
-                        <p class="card-text">{{ _('Entrar') }}: {{ dado.login }}</p>
+                        <p class="card-text">{{ _('Usuário') }}: {{ dado.login }}</p>
                         <p class="card-text">{{ _('Senha') }}: {{ dado.senha }}</p>
                         <p class="card-text">{{ _('Nome') }}: {{ dado.nome_real }}</p>
                         <p class="card-text">{{ _('Situação') }}: {{ dado.status_label }}</p>
+                        <p class="card-text">{{ _('Cargo') }}: {{ dado.cargo }}</p>
                         <p class="card-text">{{ _('Criação') }}: {{ dado.created }}</p>
                         <p class="card-text">{{ _('Modificação') }}: {{ dado.modified }}</p>
                     </div>
@@ -37,4 +38,19 @@
             {% endfor %}
         </div>
     </div>
+    <div class="pagination-container">
+        <!-- Botão para a página anterior -->
+        {% if page > 1 %}
+            <a href="{{ url_for('routes.handle_usuarios', page=page-1) }}" class="btn btn-primary">{{ _('Anterior') }}</a>
+        {% endif %}
+    
+        <!-- Exibe o número da página atual -->
+        <span class="page-info">{{ _('Página') }} {{ page }} {{ _('de') }} {{ total_pages }}</span>
+    
+        <!-- Botão para a próxima página -->
+        {% if page < total_pages %}
+            <a href="{{ url_for('routes.handle_usuarios', page=page+1) }}" class="btn btn-primary">{{ _('Próxima') }}</a>
+        {% endif %}
+    </div>
+    
 {% endblock %}

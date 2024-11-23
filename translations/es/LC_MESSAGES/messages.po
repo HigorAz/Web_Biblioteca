@@ -98,3 +98,12 @@ msgstr "Situación"
 
 msgid "Registrar"
 msgstr "Registrar"
+
+msgid "Próxima"
+msgstr "Siguiente"
+
+msgid "Anterior"
+msgstr "Anterior"
+
+msgid "Página"
+msgstr "Página"

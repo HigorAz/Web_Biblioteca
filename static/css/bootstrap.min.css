@@ -14575,4 +14575,23 @@ body {
     height: 1.5rem;
     cursor: pointer;
 }
+
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 50px;
+    position: relative;
+}
+
+.page-info {
+    margin: 0 10px;
+    font-weight: bold;
+}
+
+.btn {
+    padding: 10px 15px;
+    text-decoration: none;
+}
+
 /*# sourceMappingURL=bootstrap.min.css.map */

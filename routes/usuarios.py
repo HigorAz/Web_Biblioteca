@@ -22,12 +22,24 @@ def handle_usuarios():
         return add_usuario()
 
 def get_usuarios():
+    # Parâmetros de paginação
+    page = request.args.get('page', 1, type=int)
+    per_page = 8  # Número de registros por página
+    offset = (page - 1) * per_page
     try:
         db = get_db()
         cursor = db.cursor()
-        cursor.execute('SELECT *, CASE WHEN status = 1 THEN \'Ativo\' WHEN status = 0 THEN \'Bloqueado\' END AS status_label FROM usuarios')
+        # Consultar o total de registros
+        cursor.execute("SELECT COUNT(*) AS total FROM usuarios")
+        total_records = cursor.fetchone()['total']
+        cursor.execute('SELECT *, CASE WHEN status = 1 THEN \'Ativo\' WHEN status = 0 THEN \'Bloqueado\' END AS status_label FROM usuarios LIMIT ? OFFSET ?', (per_page, offset))
         dados = cursor.fetchall()
-        return render_template("usuarios.html", dados = dados)
+
+        # Calcular o total de páginas
+        total_pages = (total_records + per_page - 1) // per_page
+
+        return render_template("usuarios.html", dados = dados, page=page, total_pages=total_pages)
+    
     except sqlite3.Error as e:
         return jsonify({'error': str(e)}), 500
     finally:
@@ -143,6 +155,7 @@ def update_usuario(usuario_id):
     senha = request.form.get('senha') 
     nome_real = request.form.get('nome_real')
     status = request.form.get('status')
+    role = request.form.get('role')
 
     if not validar_email(login):
         return jsonify({'error': 'login deve ser um e-mail válido'}), 400
@@ -161,8 +174,8 @@ def update_usuario(usuario_id):
             return jsonify({'error': 'Login já existe'}), 409
 
         hashed_senha = bcrypt.hashpw(senha.encode('utf-8'), bcrypt.gensalt())
-        cursor.execute('UPDATE usuarios SET login = ?, senha = ?, nome_real = ?, status = ?, modified = ? WHERE id = ?', 
-                       (login, hashed_senha, nome_real, status, now, usuario_id))
+        cursor.execute('UPDATE usuarios SET login = ?, senha = ?, nome_real = ?, status = ?, role = ?, modified = ? WHERE id = ?', 
+                       (login, hashed_senha, nome_real, status, role, now, usuario_id))
         db.commit()
 
         cursor.execute('SELECT *, CASE WHEN status = 1 THEN \'Ativo\' WHEN status = 0 THEN \'Bloqueado\' END AS status_label FROM usuarios WHERE id = ?', (usuario_id,))
