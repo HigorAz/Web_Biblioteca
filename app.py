@@ -7,6 +7,7 @@ from flask import Flask, redirect, request, url_for, session, render_template, j
 from flask_dance.contrib.google import make_google_blueprint, google
 from flask_dance.contrib.github import make_github_blueprint, github
 from datetime import datetime, timedelta
+from db.database import init_db
 from routes import bp as routes_bp 
 import os
 from dotenv import load_dotenv
@@ -19,75 +20,6 @@ load_dotenv()
 
 app = Flask(__name__, template_folder="templates")
 app.secret_key = os.getenv("SECRET_KEY")
-
-login_manager = LoginManager(app)
-login_manager.login_view = 'login'
-principals = Principal(app)
-
-admin_permission = Permission(RoleNeed('admin'))
-user_permission = Permission(RoleNeed('user'))
-
-users = {
-    "admin": {"password": "adminpass", "role": "admin"},
-    "user": {"password": "userpass", "role": "user"}
-}
-
-class User(UserMixin):
-    def __init__(self, username, role):
-        self.id = username
-        self.role = role
-
-@login_manager.user_loader
-def load_user(user_id):
-    user_data = users.get(user_id)
-    if user_data:
-        return User(user_id, user_data['role'])
-    return None
-
-@identity_loaded.connect_via(app)
-def on_identity_loaded(sender, identity):
-    if current_user.is_authenticated:
-        identity.provides.add(UserNeed(current_user.id))
-        identity.provides.add(RoleNeed(current_user.role))
-
-@app.route("/login", methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        username = request.form["username"]
-        password = request.form["password"]
-        user = request.form["user"]
-
-        if user and user["password"] == password:
-            user_obj = User(username, user["role"])
-            login_user(user_obj)
-            return redirect(url_for("index"))
-        return "Credenciais inválidas. Por favor, tente novamente"
-    return render_template("login.html")
-
-@app.route("/admin")
-@login_required
-def admin():
-    if not admin_permission.can():
-        return redirect(url_for('forbidden'))
-    return "Olá Admin, bem vindo"
-
-@app.route("/user")
-@login_required
-def admin():
-    if not user_permission.can():
-        return redirect(url_for('forbidden'))
-    return "Olá Usuário, bem vindo"
-
-@app.route("/logout")
-@login_required
-def logout():
-    logout_user()
-    identity_changed.send(app, identity=AnonymousIdentity())
-    return redirect(url_for("login"))
-
-@app.route("/forbidden")
-def forbidden():
-    return render_template("403.html"), 403
 
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
@@ -130,6 +62,14 @@ github_blueprint = make_github_blueprint(
 app.register_blueprint(github_blueprint, url_prefix="/login")
 
 app.register_blueprint(routes_bp)
+
+@app.route("/initdb")
+def init_database():
+    try:
+        init_db()  # Executa a função que inicializa o banco
+        return jsonify({"message": "Banco de dados inicializado com sucesso!"}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 @app.route("/")
 def index():

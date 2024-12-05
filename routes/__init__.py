@@ -6,3 +6,4 @@ bp = Blueprint('routes', __name__)
 from .usuarios import *
 from .index import *
 from .login import *
+from .livros import *

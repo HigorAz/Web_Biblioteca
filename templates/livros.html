@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <!-- Cabeçalho com o título e botão de adicionar -->
+    <div class="d-flex justify-content-between align-items-center mt-4 mb-4">
+        <h1 class="text-center">{% block title %} {{ _('Livros') }} {% endblock %}</h1>
+        <a href="{{ url_for('routes.create_livro') }}" class="btn btn-success">
+            <i class="fas fa-plus"></i> {{ _('Adicionar Livro') }}
+        </a>        
+    </div>
+
+    <!-- Listagem dos livros -->
+    <div class="row">
+        {% for dado in dados %}
+        <div class="col-md-3 mb-4">
+            <div class="card text-white bg-primary mb-3" style="position: relative;">
+                <div class="card-icons" style="position: absolute; top: 10px; right: 10px;">
+                    <!-- Botão de edição -->
+                    <form action="{{ url_for('routes.handle_livro', livro_id=dado.id) }}" method="GET" style="display:inline;">
+                        <button type="submit" class="btn-transparent">
+                            <i class="fas fa-pencil-alt" style="color: black;"></i>
+                        </button>
+                    </form>
+                    <!-- Botão de exclusão -->
+                    <form action="{{ url_for('routes.handle_livro', livro_id=dado.id) }}" method="POST" style="display:inline;">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <button type="submit" class="btn-transparent">
+                            <i class="fas fa-trash" style="color: black;"></i>
+                        </button>
+                    </form>
+                </div>
+                <div class="card-header" style="color: black;">
+                    {{ dado.titulo }}
+                </div>
+                <div class="card-body">
+                    <p class="card-text">{{ _('Autor') }}: {{ dado.autor }}</p>
+                    <p class="card-text">{{ _('Gênero') }}: {{ dado.genero }}</p>
+                    <p class="card-text">{{ _('Páginas') }}: {{ dado.paginas }}</p>
+                    <p class="card-text">{{ _('Criação') }}: {{ dado.created }}</p>
+                    <p class="card-text">{{ _('Modificação') }}: {{ dado.modified }}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Paginação -->
+    <div class="pagination-container text-center mt-4">
+        {% if page > 1 %}
+            <a href="{{ url_for('routes.handle_livros', page=page-1) }}" class="btn btn-primary">{{ _('Anterior') }}</a>
+        {% endif %}
+        <span class="page-info">{{ _('Página') }} {{ page }} {{ _('de') }} {{ total_pages }}</span>
+        {% if page < total_pages %}
+            <a href="{{ url_for('routes.handle_livros', page=page+1) }}" class="btn btn-primary">{{ _('Próxima') }}</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

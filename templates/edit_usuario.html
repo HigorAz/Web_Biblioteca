@@ -19,9 +19,15 @@
                 <textarea class="form-control" id="exampleTextarea" name="nome_real" rows="1" required>{{ usuario['nome_real'] }}</textarea>
             </div>
             <div>
-                <label for="exampleTextarea" class="form-label mt-4">{{ _('Cargo') }}</label>
-                <textarea class="form-control" id="exampleTextarea" name="role" rows="1" required>{{ usuario['role'] }}</textarea>
-            </div>
+                <label class="form-label mt-4">{{ _('Cargo') }}</label>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="cargo" id="admin" value="1" required>
+                    <label class="form-check-label" for="admin">{{ _('Administrador') }}</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="cargo" id="member" value="0" required>
+                    <label class="form-check-label" for="member">{{ _('Membro') }}</label>
+                </div>
             <fieldset>
                 <legend class="mt-4">Status</legend>
                 <div class="form-check">

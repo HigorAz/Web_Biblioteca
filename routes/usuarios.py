@@ -32,7 +32,7 @@ def get_usuarios():
         # Consultar o total de registros
         cursor.execute("SELECT COUNT(*) AS total FROM usuarios")
         total_records = cursor.fetchone()['total']
-        cursor.execute('SELECT *, CASE WHEN status = 1 THEN \'Ativo\' WHEN status = 0 THEN \'Bloqueado\' END AS status_label FROM usuarios LIMIT ? OFFSET ?', (per_page, offset))
+        cursor.execute('SELECT *, CASE WHEN status = 1 THEN \'Ativo\' WHEN status = 0 THEN \'Bloqueado\' END AS status_label, CASE WHEN cargo = 1 THEN \'Administrador\' WHEN cargo = 0 THEN \'Membro\' END AS cargo_label FROM usuarios LIMIT ? OFFSET ?', (per_page, offset))
         dados = cursor.fetchall()
 
         # Calcular o total de páginas
@@ -49,6 +49,7 @@ def add_usuario():
     login = request.json.get('login')
     senha = request.json.get('senha')
     nome_real = request.json.get("nome_real")
+    cargo = request.json.get('cargo')
 
     if not login:
         return jsonify({'error': 'login é obrigatório'})
@@ -68,7 +69,7 @@ def add_usuario():
             return jsonify({'error': 'Login já existe'})
         else:
             hashed_senha = bcrypt.hashpw(senha.encode('utf-8'), bcrypt.gensalt())
-            cursor.execute('INSERT INTO usuarios (login, senha, nome_real) VALUES (?, ?, ?)', (login, hashed_senha, nome_real))
+            cursor.execute('INSERT INTO usuarios (login, senha, nome_real, cargo) VALUES (?, ?, ?, ?)', (login, hashed_senha, nome_real, cargo))
             db.commit()
             return jsonify({'message': 'Dados inseridos com sucesso'})
     except sqlite3.Error as e:
@@ -103,7 +104,7 @@ def get_usuario(usuario_id):
     try:
         db = get_db()
         cursor = db.cursor()
-        cursor.execute('SELECT *, CASE WHEN status = 1 THEN \'Ativo\' WHEN status = 0 THEN \'Bloqueado\' END AS status_label FROM usuarios WHERE id = ?', (usuario_id,))
+        cursor.execute('SELECT *, CASE WHEN status = 1 THEN \'Ativo\' WHEN status = 0 THEN \'Bloqueado\' END AS status_label, CASE WHEN cargo = 1 THEN \'Administrador\' WHEN cargo = 0 THEN \'Membro\' END AS cargo_label FROM usuarios WHERE id = ?', (usuario_id,))
         usuario = cursor.fetchone()
         if usuario: 
             return render_template("edit_usuario.html", usuario=usuario)
@@ -155,7 +156,7 @@ def update_usuario(usuario_id):
     senha = request.form.get('senha') 
     nome_real = request.form.get('nome_real')
     status = request.form.get('status')
-    role = request.form.get('role')
+    cargo = request.form.get('cargo')
 
     if not validar_email(login):
         return jsonify({'error': 'login deve ser um e-mail válido'}), 400
@@ -174,11 +175,11 @@ def update_usuario(usuario_id):
             return jsonify({'error': 'Login já existe'}), 409
 
         hashed_senha = bcrypt.hashpw(senha.encode('utf-8'), bcrypt.gensalt())
-        cursor.execute('UPDATE usuarios SET login = ?, senha = ?, nome_real = ?, status = ?, role = ?, modified = ? WHERE id = ?', 
-                       (login, hashed_senha, nome_real, status, role, now, usuario_id))
+        cursor.execute('UPDATE usuarios SET login = ?, senha = ?, nome_real = ?, status = ?, cargo = ?, modified = ? WHERE id = ?', 
+                       (login, hashed_senha, nome_real, status, cargo, now, usuario_id))
         db.commit()
 
-        cursor.execute('SELECT *, CASE WHEN status = 1 THEN \'Ativo\' WHEN status = 0 THEN \'Bloqueado\' END AS status_label FROM usuarios WHERE id = ?', (usuario_id,))
+        cursor.execute('SELECT *, CASE WHEN status = 1 THEN \'Ativo\' WHEN status = 0 THEN \'Bloqueado\' END AS status_label, CASE WHEN cargo = 1 THEN \'Administrador\' WHEN cargo = 0 THEN \'Membro\' END AS cargo_label FROM usuarios WHERE id = ?', (usuario_id,))
         usuario_atualizado = cursor.fetchone()
 
         return render_template("usuario.html", usuario=usuario_atualizado)

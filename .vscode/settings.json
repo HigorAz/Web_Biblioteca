@@ -2,5 +2,13 @@
     "cSpell.words": [
         "dotenv",
         "itsdangerous"
+    ],
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "biblioteca",
+            "database": "${workspaceFolder:N1_Web_Biblioteca}/db/database.db"
+        }
     ]
 }

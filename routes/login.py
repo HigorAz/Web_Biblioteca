@@ -123,6 +123,7 @@ def register():
         login = request.form.get('login')
         senha = request.form.get('senha')
         nome_real = request.form.get("nome_real")
+        cargo = request.form.get("cargo")
 
         if not login:
             flash('Login é obrigatório')
@@ -147,8 +148,8 @@ def register():
                 return render_template("register.html")
             else:
                 hashed_senha = bcrypt.hashpw(senha.encode('utf-8'), bcrypt.gensalt())
-                cursor.execute('INSERT INTO usuarios (login, senha, nome_real, created) VALUES (?, ?, ?, ?)', 
-                               (login, hashed_senha, nome_real, now))
+                cursor.execute('INSERT INTO usuarios (login, senha, nome_real, created, cargo) VALUES (?, ?, ?, ?, ?)', 
+                               (login, hashed_senha, nome_real, now, cargo))
                 db.commit()
                 flash('Usuário registrado com sucesso')
                 return render_template("login.html")
