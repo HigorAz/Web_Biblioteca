@@ -17,14 +17,13 @@ def handle_livros():
         return add_livro()
 
 def get_livros():
-    # Parâmetros de paginação
+
     page = request.args.get('page', 1, type=int)
-    per_page = 8  # Número de registros por página
+    per_page = 8 
     offset = (page - 1) * per_page
     try:
         db = get_db()
         cursor = db.cursor()
-        # Consultar o total de registros
         cursor.execute("SELECT COUNT(*) AS total FROM livros")
         total_records = cursor.fetchone()['total']
         cursor.execute(
@@ -33,7 +32,6 @@ def get_livros():
         )
         dados = cursor.fetchall()
 
-        # Calcular o total de páginas
         total_pages = (total_records + per_page - 1) // per_page
 
         return render_template("livros.html", dados=dados, page=page, total_pages=total_pages)

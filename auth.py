@@ -1,14 +1,13 @@
 from flask_login import UserMixin
 from flask_principal import Permission, RoleNeed
 
-# Permissões
 admin_permission = Permission(RoleNeed("admin"))
 user_permission = Permission(RoleNeed("user"))
 
 class Usuario(UserMixin):
     def __init__(self, id, cargo):
         self.id = id
-        self.cargo = cargo  # "admin" ou "user"
+        self.cargo = cargo
 
     @property
     def cargo(self):

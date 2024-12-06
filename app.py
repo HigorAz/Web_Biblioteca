@@ -30,7 +30,7 @@ principals = Principal(app)
 
 @login_manager.user_loader
 def load_user(user_id):
-    with sqlite3.connect('db/database.db') as db:  # Garante que a conexão feche automaticamente
+    with sqlite3.connect('db/database.db') as db:
         db.row_factory = sqlite3.Row
         cursor = db.cursor()
         cursor.execute("SELECT id, cargo FROM usuarios WHERE id = ?", (user_id,))
@@ -43,16 +43,13 @@ def load_user(user_id):
 @identity_loaded.connect_via(app)
 def on_identity_loaded(sender, identity):
     if current_user.is_authenticated:
-        # Adiciona ID do usuário
         identity.provides.add(UserNeed(current_user.id))
 
-        # Adiciona o papel do usuário como RoleNeed
         if current_user.cargo == "admin":
             identity.provides.add(RoleNeed("admin"))
         elif current_user.cargo == "user":
             identity.provides.add(RoleNeed("user"))
 
-        # Depuração
         print(f"User ID: {current_user.id}, Role: {current_user.cargo}")
         print(f"Identity provides: {identity.provides}")
 
@@ -101,7 +98,7 @@ app.register_blueprint(routes_bp)
 @app.route("/initdb")
 def init_database():
     try:
-        init_db()  # Executa a função que inicializa o banco
+        init_db() 
         return jsonify({"message": "Banco de dados inicializado com sucesso!"}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500

@@ -98,11 +98,10 @@ def login():
             usuario = cursor.fetchone()
 
             if usuario:
-                if usuario['status'] == 0:  # Verifica se o usuário está bloqueado
+                if usuario['status'] == 0: 
                     flash('Usuário está bloqueado')
                     return render_template("login.html")
-
-                # Verifica a senha com bcrypt
+                
                 if bcrypt.checkpw(senha.encode('utf-8'), usuario['senha']):
                     flash('Login bem-sucedido')
                     role = "admin" if usuario["cargo"] == 1 else "user"
@@ -134,9 +133,6 @@ def login():
 
 @bp.route('/register', methods=['GET', 'POST'])
 def register():
-    if getattr(current_user, 'cargo', '') != 'admin':
-        flash("Acesso negado: Apenas administradores podem acessar esta página.", "danger")
-        return redirect(url_for('routes.forbidden'))
     if request.method == 'POST':
         login = request.form.get('login')
         senha = request.form.get('senha')
