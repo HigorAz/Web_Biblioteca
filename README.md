@@ -1,28 +1,101 @@
-Guia de Instalação:
+# Biblioteca Virtual
 
-1. Através de uma IDE, é necessário que você possua o SQLite e Python instalados;
-2. Agora que você baixou este repositório, dentro do VSCODE, abra a pasta do projeto;
-3. Instale os seguintes módulos:
-	- pip install flask
-	- pip install pysqlite3
-	- pip install bcrypt
-  	- pip install python-dotenv
-4. Adicione as suas credenciais Google, GitHub e de e-mail no arquivo .env, conforme o modelo abaixo:
-	
- 	GOOGLE_CLIENT_ID="" 
-	
- 	GOOGLE_CLIENT_SECRET=""
-	
-	GITHUB_CLIENT_ID=""
-	
-	GITHUB_CLIENT_SECRET=""
-	
-	MAIL_USERNAME=""
-	
-	MAIL_PASSWORD=""
-	
-	SECRET_KEY="123"
- 
-5. Vá ao arquivo app.py e clique na opção "Run Code";
-6. No terminal você terá o link de acesso ao projeto, que será uma rota direcionando para uma rota padrão do seu computador (normalmente na porta 3000 ou 5000);
-7. Vá para a rota /initdb e então seu banco será criado, após isso você poderá utilizar as funções do sistema normalmente.
+Documentação do projeto
+
+---
+
+## Recursos do Sistema
+
+- **Autenticação:**
+  - Login com Google e GitHub via OAuth.
+  - Login e registro convencionais com validação de senha.
+  - Recuperação de senha com envio de e-mail.
+- **Gerenciamento de Usuários:**
+  - Adicionar, editar e excluir usuários com controle de permissões (admin e usuário).
+- **Gerenciamento de Livros:**
+  - Adicionar, editar e excluir livros com paginação eficiente.
+- **Internacionalização:**
+  - Suporte a múltiplos idiomas (Português, Inglês e Espanhol).
+- **Segurança:**
+  - Proteção de rotas, senhas criptografadas e uso de variáveis de ambiente para dados sensíveis.
+
+---
+
+## Pré-requisitos
+
+- Python 3.8 ou superior
+- SQLite 3
+- Pip (gerenciador de pacotes do Python)
+- IDE (recomendado: VS Code ou PyCharm)
+
+---
+
+## Guia de Instalação
+
+1. Clone o repositório:
+   ```bash
+   git clone https://github.com/seu-usuario/seu-repositorio.git
+   cd seu-repositorio
+
+2. Crie um ambiente virtual:
+   ```bash
+   python -m venv venv
+   source venv/bin/activate # No Windows: venv\Scripts\activate
+
+3. Instale as dependências:
+   ```bash
+   pip install -r requirements.txt
+
+4. Adicione suas credenciais ao arquivo .env: Crie um arquivo .env na raiz do projeto e preencha as variáveis de ambiente:
+   ```bash
+   GOOGLE_CLIENT_ID="sua_google_client_id"
+   GOOGLE_CLIENT_SECRET="seu_google_client_secret"
+   GITHUB_CLIENT_ID="seu_github_client_id"
+   GITHUB_CLIENT_SECRET="seu_github_client_secret"
+   MAIL_USERNAME="seu_email"
+   MAIL_PASSWORD="sua_senha"
+   SECRET_KEY="uma_chave_secreta"
+
+5. Inicie o servidor e configure o banco de dados:
+   ```bash
+   python app.py
+
+6. Acesse o sistema:
+
+- http://127.0.0.1:5000/login - Página de login
+- http://127.0.0.1:5000/usuarios - Gerenciamento de usuários
+- http://127.0.0.1:5000/livros - Gerenciamento de livros
+
+## Comandos úteis
+
+### Gerenciar traduções
+
+- Extrair mensagens:
+   ```bash
+   pybabel extract -F babel.cfg -o messages.pot .
+
+- Inicializar idioma (es)
+   ```bash
+   pybabel init -i messages.pot -d translations -l es
+
+- Inicializar idioma (en)
+   ```bash
+   pybabel init -i messages.pot -d translations -l en
+
+- Compilar traduções:
+   ```bash
+   pybabel compile -d translations
+
+## Tecnologias Utilizadas
+
+### As principais tecnologias utilizadas neste projeto são:
+
+- Backend: Flask (Python)
+- Banco de Dados: SQLite
+- Autenticação: Flask-Login, Flask-Dance, OAuth
+- Internacionalização: Flask-Babel
+- Outras Bibliotecas: Bcrypt, Flask-Principal, Flask-Mail
+
+## Licença
+
+Este projeto é open-source e está disponível sob a licença MIT.
