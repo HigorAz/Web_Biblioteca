@@ -3,11 +3,12 @@
 # pybabel.exe init -i .\messages.pot -d translations -l es
 # pybabel.exe compile -d translations
 
+import sqlite3
 from flask import Flask, redirect, request, url_for, session, render_template, jsonify, flash
 from flask_dance.contrib.google import make_google_blueprint, google
 from flask_dance.contrib.github import make_github_blueprint, github
 from datetime import datetime, timedelta
-from db.database import init_db
+from db.database import close_db, get_db, init_db, init_app
 from routes import bp as routes_bp 
 import os
 from dotenv import load_dotenv
@@ -15,11 +16,45 @@ from flask_mail import Mail
 from flask_babel import Babel
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from flask_principal import Principal, Permission, RoleNeed, identity_loaded, UserNeed, Identity, AnonymousIdentity, identity_changed
+from auth import admin_permission, user_permission, Usuario
 
 load_dotenv()
 
 app = Flask(__name__, template_folder="templates")
 app.secret_key = os.getenv("SECRET_KEY")
+
+
+login_manager = LoginManager(app)
+login_manager.login_view = "routes.login"
+principals = Principal(app)
+
+@login_manager.user_loader
+def load_user(user_id):
+    with sqlite3.connect('db/database.db') as db:  # Garante que a conexão feche automaticamente
+        db.row_factory = sqlite3.Row
+        cursor = db.cursor()
+        cursor.execute("SELECT id, cargo FROM usuarios WHERE id = ?", (user_id,))
+        user_data = cursor.fetchone()
+        if user_data:
+            role = "admin" if user_data["cargo"] == 1 else "user"
+            return Usuario(user_data["id"], role)
+    return None
+
+@identity_loaded.connect_via(app)
+def on_identity_loaded(sender, identity):
+    if current_user.is_authenticated:
+        # Adiciona ID do usuário
+        identity.provides.add(UserNeed(current_user.id))
+
+        # Adiciona o papel do usuário como RoleNeed
+        if current_user.cargo == "admin":
+            identity.provides.add(RoleNeed("admin"))
+        elif current_user.cargo == "user":
+            identity.provides.add(RoleNeed("user"))
+
+        # Depuração
+        print(f"User ID: {current_user.id}, Role: {current_user.cargo}")
+        print(f"Identity provides: {identity.provides}")
 
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587

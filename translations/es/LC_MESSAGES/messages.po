@@ -107,3 +107,36 @@ msgstr "Anterior"
 
 msgid "Página"
 msgstr "Página"
+
+msgid "Cargo"
+msgstr "Papel"
+
+msgid "Livros"
+msgstr "Libros"
+
+msgid "Autor"
+msgstr "Autor"
+
+msgid "Gênero"
+msgstr "Género"
+
+msgid "Páginas"
+msgstr "Páginas"
+
+msgid "Adicionar Livro"
+msgstr "Añadir Libro"
+
+msgid "Título"
+msgstr "Título"
+
+msgid "Adicionar"
+msgstr "Añadir"
+
+msgid "Acesso negado"
+msgstr "Acceso denegado"
+
+msgid "Desculpe, você não tem permissão para acessar esta página."
+msgstr "Lo sentimos, no tienes permiso para acceder a esta página."
+
+msgid "Voltar para a página inicial"
+msgstr "Volver a la página principal"

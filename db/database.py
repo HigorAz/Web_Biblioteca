@@ -5,14 +5,15 @@ DATABASE = 'db/database.db'
 
 def get_db():
     if 'db' not in g:
+        print("Criando nova conexão com o banco de dados.")
         g.db = sqlite3.connect(DATABASE)
         g.db.row_factory = sqlite3.Row
     return g.db
 
 def close_db(e=None):
     db = g.pop('db', None)
-
     if db is not None:
+        print("Fechando conexão com o banco de dados.")
         db.close()
 
 def init_db():

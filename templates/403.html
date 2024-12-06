@@ -1,13 +1,18 @@
-<!DOCTYPE html>
-<html lang="'en">
-   
-<head>
-    <meta charset='UTF-8'>
-    <title>Acesso negado</title>
-</head>
-<body>
-        <h1> 403 - Acesso negado</h1>
-    <p> Desculpe, você não tem permissão para acessar esta página</p>
-    <a href="/">Voltar para a página inicial</a>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container text-center mt-5">
+    <h1 class="display-4 text-danger">403 - {{ _('Acesso negado') }}</h1>
+    <p class="lead">{{ _('Desculpe, você não tem permissão para acessar esta página.') }}</p>
+    <div class="mt-4">
+        <a href="{{ url_for('index') }}" class="btn btn-primary">{{ _('Voltar para a página inicial') }}</a>
+    </div>
+</div>
+
+<style>
+    .container {
+        padding-top: 50px;
+        padding-bottom: 50px;
+    }
+</style>
+{% endblock %}

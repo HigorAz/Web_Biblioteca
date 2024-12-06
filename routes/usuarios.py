@@ -1,5 +1,6 @@
 import sqlite3
-from flask import redirect, render_template, request, jsonify, url_for
+from flask import flash, redirect, render_template, request, jsonify, url_for
+from flask_login import current_user
 import jwt
 from . import bp
 from db.database import get_db
@@ -16,6 +17,9 @@ now = datetime.now(pytz.timezone('America/Sao_Paulo')).strftime('%Y-%m-%d %H:%M:
 
 @bp.route('/usuarios', methods=['POST', 'GET'])
 def handle_usuarios():
+    if getattr(current_user, 'cargo', '') != 'admin':
+        flash("Acesso negado: Apenas administradores podem acessar esta página.", "danger")
+        return redirect(url_for('routes.forbidden'))
     if request.method == 'GET':
         return get_usuarios()
     elif request.method == 'POST':

@@ -119,3 +119,36 @@ msgstr "Page"
 
 msgid "de"
 msgstr "of"
+
+msgid "Cargo"
+msgstr "Role"
+
+msgid "Livros"
+msgstr "Books"
+
+msgid "Autor"
+msgstr "Author"
+
+msgid "Gênero"
+msgstr "Genre"
+
+msgid "Páginas"
+msgstr "Pages"
+
+msgid "Adicionar Livro"
+msgstr "Add Book"
+
+msgid "Título"
+msgstr "Title"
+
+msgid "Adicionar"
+msgstr "Add"
+
+msgid "Acesso negado"
+msgstr "Access Denied"
+
+msgid "Desculpe, você não tem permissão para acessar esta página."
+msgstr "Sorry, you do not have permission to access this page."
+
+msgid "Voltar para a página inicial"
+msgstr "Return to the homepage"

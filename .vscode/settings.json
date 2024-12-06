@@ -10,5 +10,8 @@
             "name": "biblioteca",
             "database": "${workspaceFolder:N1_Web_Biblioteca}/db/database.db"
         }
+    ],
+    "python.analysis.extraPaths": [
+        "./routes"
     ]
 }

@@ -10,6 +10,11 @@ import pytz
 import bcrypt
 import re
 import os
+from flask_login import current_user, login_required, login_user
+from flask_principal import PermissionDenied
+from auth import admin_permission, user_permission, Usuario
+from flask_principal import identity_changed, Identity, RoleNeed
+
 
 load_dotenv()
 
@@ -89,19 +94,29 @@ def login():
         try:
             db = get_db()
             cursor = db.cursor()
-            cursor.execute('SELECT * FROM usuarios WHERE login = ?', (login,))
+            cursor.execute('SELECT id, login, senha, cargo, status FROM usuarios WHERE login = ?', (login,))
             usuario = cursor.fetchone()
 
             if usuario:
-                if usuario[4] == 0: 
+                if usuario['status'] == 0:  # Verifica se o usuário está bloqueado
                     flash('Usuário está bloqueado')
                     return render_template("login.html")
 
-                if bcrypt.checkpw(senha.encode('utf-8'), usuario[2]):
+                # Verifica a senha com bcrypt
+                if bcrypt.checkpw(senha.encode('utf-8'), usuario['senha']):
                     flash('Login bem-sucedido')
+                    role = "admin" if usuario["cargo"] == 1 else "user"
+                    user_obj = Usuario(usuario['id'], role)
+                    login_user(user_obj)
 
-                    session['user_name'] = usuario[3] 
-                    
+                    # Atualiza a identidade
+                    identity = Identity(user_obj.id)  # Cria a identidade com o ID do usuário
+                    identity.provides.add(RoleNeed(user_obj.cargo))  # Adiciona o papel do usuário à identidade
+                    identity_changed.send(request._get_current_object(), identity=identity)  # Envia a identidade alterada
+
+
+                    print(f"Login bem-sucedido! User ID: {user_obj.id}, Role: {user_obj.cargo}")
+
                     return redirect(url_for('index'))
                 else:
                     flash('Senha incorreta')
@@ -119,6 +134,9 @@ def login():
 
 @bp.route('/register', methods=['GET', 'POST'])
 def register():
+    if getattr(current_user, 'cargo', '') != 'admin':
+        flash("Acesso negado: Apenas administradores podem acessar esta página.", "danger")
+        return redirect(url_for('routes.forbidden'))
     if request.method == 'POST':
         login = request.form.get('login')
         senha = request.form.get('senha')
