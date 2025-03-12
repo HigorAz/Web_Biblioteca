@@ -26,20 +26,17 @@ def handle_usuarios():
         return add_usuario()
 
 def get_usuarios():
-    # Parâmetros de paginação
     page = request.args.get('page', 1, type=int)
-    per_page = 8  # Número de registros por página
+    per_page = 8 
     offset = (page - 1) * per_page
     try:
         db = get_db()
         cursor = db.cursor()
-        # Consultar o total de registros
         cursor.execute("SELECT COUNT(*) AS total FROM usuarios")
         total_records = cursor.fetchone()['total']
         cursor.execute('SELECT *, CASE WHEN status = 1 THEN \'Ativo\' WHEN status = 0 THEN \'Bloqueado\' END AS status_label, CASE WHEN cargo = 1 THEN \'Administrador\' WHEN cargo = 0 THEN \'Membro\' END AS cargo_label FROM usuarios LIMIT ? OFFSET ?', (per_page, offset))
         dados = cursor.fetchall()
 
-        # Calcular o total de páginas
         total_pages = (total_records + per_page - 1) // per_page
 
         return render_template("usuarios.html", dados = dados, page=page, total_pages=total_pages)
